@@ -3,11 +3,11 @@ class Register {
 	
 	public static function onload() {
 		global $Loader;
-		$Loader->Event->registerClass("defaultActionEvent", new Register()); // 注册 defaultActionEvent 事件
+		$Loader->Event->registerClass("defaultActionEvent", new Register()); // Зарегистрировать событие defaultActionEvent
 	}
 	
 	public function defaultActionEvent($test) {
-		// print_r($test); // 输出 GET 参数数组
-		return false; // 不取消事件
+		// print_r($test); // Выходной массив параметров GET
+		return false; // Не отменять событие
 	}
 }

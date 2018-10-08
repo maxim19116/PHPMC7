@@ -12,6 +12,6 @@ if(!file_exists(ROOT . "/include/data/config.php") && !isset($_GET['installed'])
 include(ROOT . "/include/loader.php");
 $Plugin = new Plugin();
 $Loader = new Loader();
-$Plugin->load("plugins");
+$Plugin->load(ROOT . "plugins");
 $Loader->router();
 $Loader->frame();

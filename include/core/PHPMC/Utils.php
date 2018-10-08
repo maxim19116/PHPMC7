@@ -2,11 +2,11 @@
 class Utils {
 	/**
 	 *
-	 *	Ini 格式配置文件读取函数
+	 *	Ini Функция чтения файла конфигурации формата
 	 *
-	 *	$config		配置文件内容
+	 *	$config		Содержимое профиля
 	 *
-	 *	$need		需要获取的键名
+	 *	$need		Имя ключа, который необходимо получить
 	 *
 	 **/
 	public function getIniTag($config, $need) {
@@ -25,13 +25,13 @@ class Utils {
 	
 	/**
 	 *
-	 *	Minecraft 服务器信息查询函数
+	 *	Minecraft Функция запроса информации сервера
 	 *
-	 *	$addres		服务器 IP 地址
+	 *	$addres		IP-адрес сервера
 	 *
-	 *	$port		服务器端口
+	 *	$port		Порт сервера
 	 *
-	 *	$timeout	超时时间
+	 *	$timeout	Время ожидания
 	 *
 	 **/
 	public function Query($addres, $port = 25565, $timeout = 2) {

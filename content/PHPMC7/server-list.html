@@ -33,7 +33,7 @@
 				<div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>服务器列表</h5>
+                            <h5>Список серверов</h5>
 						</div>
                         <div class="ibox-content" style="">
 							{{ PHPMC::Server()->getServerListAdmin() }}
@@ -43,32 +43,32 @@
                 <div class="col-lg-6">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>修改服务器</h5></div>
+                            <h5>Изменить сервер</h5></div>
                         <div class="ibox-content addfrp">
-                            <p>从上面选择一个服务器来修改设置</p>
+                            <p>Выберите сервер сверху, чтобы изменить настройки</p>
 							<div id="changeserver" style="display: none;">
-								<p>请注意，服务器创建后无法修改 Daemon。</p>
-								<p>服务器名称</p>
+								<p>Обратите внимание, что Deamon не может быть изменен после создания сервера.</p>
+								<p>Имя сервера</p>
 								<input type="text" id="modify_name" class="form-control" />
-								<p>最大内存 (MB)</p>
+								<p>Максимальная память (MB)</p>
 								<input type="text" id="modify_maxram" class="form-control" />
-								<p>核心文件名字</p>
+								<p>Имя основного файла</p>
 								<input type="text" id="modify_jar" class="form-control" />
-								<p>核心启动命令</p>
+								<p>Основная команда запуска</p>
 								<input type="text" id="modify_startcommand" class="form-control" />
-								<p>停止命令</p>
+								<p>Команда остановки</p>
 								<input type="text" id="modify_stopcommand" class="form-control" />
-								<p>服务器端口</p>
+								<p>Порт сервера</p>
 								<input type="text" id="modify_port" class="form-control" />
-								<p>服务器 FTP 密码</p>
+								<p>FTP Пароль сервера</p>
 								<input type="text" id="modify_ftppass" class="form-control" />
-								<p>服务器所有者</p>
+								<p>Владелец сервера</p>
 								<select id="modify_owner" class="form-control">
 									{{ PHPMC::User()->getOptionList(true) }}
 								</select>
 								<div class="text-right" style="margin-top: 16px;">
-									<button class="btn btn-danger" onclick="deleteServer()">删除服务器</button>
-									<button class="btn btn-primary" onclick="updateServer()">保存修改</button>
+									<button class="btn btn-danger" onclick="deleteServer()">Удалить сервер</button>
+									<button class="btn btn-primary" onclick="updateServer()">Сохранить изменения</button>
 								</div>
 							</div>
 						</div>
@@ -77,33 +77,33 @@
 				<div class="col-lg-6">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>添加服务器</h5>
+                            <h5>Добавить сервер</h5>
 						</div>
                         <div class="ibox-content addfrp">
-							<p>选择 Daemon</p>
+							<p>Выберите Daemon</p>
 							<select id="daemon" class="form-control">
 								{{ PHPMC::Daemon()->getOptionList() }}
 							</select>
-							<p>服务器名称</p>
+							<p>Имя сервера</p>
 							<input type="text" id="name" placeholder="MyServer" class="form-control" />
-							<p>最大内存 (MB)</p>
+							<p>Максимальная память (MB)</p>
 							<input type="text" id="maxram" placeholder="1024" class="form-control" />
-							<p>核心文件名字</p>
+							<p>Имя основного файла</p>
 							<input type="text" id="jar" placeholder="PaperSpigot.jar" class="form-control" />
-							<p>核心启动命令</p>
+							<p>Команда запуска ядра</p>
 							<input type="text" id="startcommand" placeholder="java -Xmx{maxram}M -Xms128M -jar {jar}" value="java -Xmx{maxram}M -Xms128M -jar {jar}" class="form-control" />
-							<p>停止命令</p>
+							<p>Команда остановки сервера</p>
 							<input type="text" id="stopcommand" placeholder="stop" class="form-control" />
-							<p>服务器端口</p>
+							<p>Порт сервера</p>
 							<input type="text" id="port" placeholder="25565" class="form-control" />
-							<p>服务器 FTP 密码</p>
+							<p>FTP Пароль сервера</p>
 							<input type="text" id="ftppass" placeholder="123456789" class="form-control" />
-							<p>服务器所有者</p>
+							<p>Владелец сервера</p>
 							<select id="owner" class="form-control">
 								{{ PHPMC::User()->getOptionList() }}
 							</select>
 							<div class="text-right" style="margin-top: 16px;">
-								<button class="btn btn-success" onclick="createServer()">添加服务器</button>
+								<button class="btn btn-success" onclick="createServer()">Добавление сервера</button>
 							</div>
 						</div>
                     </div>

@@ -30,27 +30,27 @@ class Update {
 	public function updateExecute() {
 		$data = $this->getUpdateInfo();
 		if(!$data) {
-			PHPMC::Error()->Println("无法更新，请检查网络是否正常。");
+			PHPMC::Error()->Println("Не удается обновить, проверьте правильность работы сети.");
 		} elseif(!$this->checkPermission("./")) {
-			PHPMC::Error()->Println("网站目录不可写，请修改权限或手动更新。");
+			PHPMC::Error()->Println("Каталог сайта не доступен для записи, измените разрешения или обновите вручную.");
 		} elseif(!class_exists("ZipArchive")) {
-			PHPMC::Error()->Println("未检测到 ZipArchive 组件，请先修改 php.ini 启用 php_zip 扩展。");
+			PHPMC::Error()->Println("Компонент ZipArchive не обнаружен, сначала измените php.ini включает расширение php_zip.");
 		} else {
 			$file = @PHPMC::Http()->Request($data['download']);
 			if(strlen($file) == 0) {
-				PHPMC::Error()->Println("下载的文件长度为 0，请检查网络是否正常。");
+				PHPMC::Error()->Println("Загруженный файл имеет длину 0, проверьте, работает ли сеть.");
 			} elseif(file_put_contents('update-temp.zip', $file) === false) {
-				PHPMC::Error()->Println("写入文件时发生错误，请检查目录是否有读写权限。");
+				PHPMC::Error()->Println("Произошла ошибка при записи файла, проверьте, есть ли в каталоге разрешения на чтение и запись.");
 			} elseif(md5_file('update-temp.zip') !== $data['filemd5']) {
 				@unlink('update-temp.zip');
-				PHPMC::Error()->Println("文件 MD5 验证失败，请尝试重新更新。");
+				PHPMC::Error()->Println("Ошибка проверки файла MD5, попробуйте повторно обновить.");
 			} else {
 				if($this->unzipUpdateFiles('update-temp.zip', './')) {
 					@unlink('update-temp.zip');
-					PHPMC::Error()->Println("PHPMC 更新成功，请刷新网页。");
+					PHPMC::Error()->Println("PHPMC Обновление прошло успешно, обновите веб-страницу.");
 				} else {
 					@unlink('update-temp.zip');
-					PHPMC::Error()->Println("解压文件时发生错误，无法打开文件或解压失败。");
+					PHPMC::Error()->Println("Произошла ошибка при извлечении файла, не удалось открыть файл или не удалось извлечь файл.");
 				}
 			}
 		}

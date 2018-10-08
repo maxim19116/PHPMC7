@@ -6,8 +6,8 @@ function echartStr(names,brower){
 	myChart = echarts.init(document.getElementById('canvas_main'));
 	var option = {
 		title : {
-		    text: 'PHPMC7 统计信息',
-		    subtext: '服务器数据统计信息',
+		    text: 'PHPMC7 Статистика',
+		    subtext: 'Статистика данных сервера',
 		    x:'center',
 			color: '#FFFFFF'
 		},
@@ -22,7 +22,7 @@ function echartStr(names,brower){
 		},
 		series : [
 		{
-		    name: '统计信息',
+		    name: 'Статистика',
 		    type: 'pie',
 		    radius : '55%',
 		    center: ['50%', '60%'],
@@ -62,7 +62,7 @@ function getPie(that){
 	        echartStr(names,brower);
 	    },
 	    error: function (errorMsg) {
-	        window.parent.frames.showmsg("获取服务器图表信息失败！");
+	        window.parent.frames.showmsg("Не удалось получить информацию о графике сервера!");
 		}
 	});
 }

@@ -18,52 +18,52 @@ function install() {
 	$password = $_POST['password'];
 	$password2 = $_POST['password2'];
 	if(!preg_match("/^[A-Za-z0-9\-\_\.]+$/", $db_host)) {
-		echo "<script>alert('ж•°жЌ®еє“ењ°еќЂдёЌеђ€жі•пјЃ');location='?step=2';</script>";
+		echo "<script>alert('Адрес базы данных не введен неверно!');location='?step=2';</script>";
 		exit;
 	}
 	if(!preg_match("/^[0-9]+$/", $db_port)) {
-		echo "<script>alert('ж•°жЌ®еє“з«ЇеЏЈдёЌеђ€жі•пјЃ');location='?step=2';</script>";
+		echo "<script>alert('Порт базы данных введен неверно!');location='?step=2';</script>";
 		exit;
 	}
 	if(!preg_match("/^[A-Za-z0-9\-\_\.]+$/", $db_user)) {
-		echo "<script>alert('ж•°жЌ®еє“иґ¦еЏ·дёЌеђ€жі•пјЃ');location='?step=2';</script>";
+		echo "<script>alert('Учетная запись базы данных введен неверно!');location='?step=2';</script>";
 		exit;
 	}
 	if(empty($db_pass)) {
-		echo "<script>alert('ж•°жЌ®еє“еЇ†з ЃдёЌиѓЅдёєз©єпјЃ');location='?step=2';</script>";
+		echo "<script>alert('Пароль базы данных введен неверно!');location='?step=2';</script>";
 		exit;
 	}
 	if(!preg_match("/^[A-Za-z0-9\-\_\.]+$/", $db_name)) {
-		echo "<script>alert('ж•°жЌ®еє“еђЌз§°дёЌеђ€жі•пјЃ');location='?step=2';</script>";
+		echo "<script>alert('Имя базы данных не является законным!');location='?step=2';</script>";
 		exit;
 	}
 	if(empty($SiteName)) {
 		$SiteName = "PHPMC 7";
 	}
 	if(empty($Description)) {
-		$Description = "Minecraft жњЌеЉЎе™Ёз®Ўзђ†зі»з»џ";
+		$Description = "Minecraft | Система управления сервером";
 	}
 	if(!preg_match("/^[A-Za-z0-9\-\_\.]+$/", $username)) {
-		echo "<script>alert('з®Ўзђ†е‘иґ¦еЏ·дёЌеђ€жі•пјЃ');location='?step=2';</script>";
+		echo "<script>alert('Учетная запись администратора введена неверно!');location='?step=2';</script>";
 		exit;
 	}
 	if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		echo "<script>alert('з®Ўзђ†е‘й‚®з®±дёЌеђ€жі•пјЃ');location='?step=2';</script>";
+		echo "<script>alert('Администратор почтового ящика введен неверно!');location='?step=2';</script>";
 		exit;
 	}
 	if(empty($password)) {
-		echo "<script>alert('з®Ўзђ†е‘еЇ†з ЃдёЌиѓЅдёєз©єпјЃ');location='?step=2';</script>";
+		echo "<script>alert('Пароль администратора введен неверно!');location='?step=2';</script>";
 		exit;
 	}
 	if($password !== $password2) {
-		echo "<script>alert('дё¤ж¬ЎеЇ†з Ѓиѕ“е…ҐдёЌдёЂи‡ґпјЃ');location='?step=2';</script>";
+		echo "<script>alert('Пароли отличаются!');location='?step=2';</script>";
 		exit;
 	}
 	$db_port = Intval($db_port);
 	$password = password_hash(md5($password), PASSWORD_BCRYPT);
-	$conn = mysqli_connect($db_host, $db_user, $db_pass, "", $db_port) or die("<script>alert('ж— жі•иїћжЋҐе€° MySQL ж•°жЌ®еє“пјЊиЇ·жЈЂжџҐгЂ‚й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
-	mysqli_select_db($conn, $db_name) or die("<script>alert('ж•°жЌ®еє“ {$db_name} дёЌе­ењЁпјЃ');location='?step=2';</script>");
-	mysqli_query($conn, "SET FOREIGN_KEY_CHECKS=0;") or die("<script>alert('й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
+	$conn = mysqli_connect($db_host, $db_user, $db_pass, "", $db_port) or die("<script>alert('Не удается подключиться к базе данных MySQL, проверьте корректность введеных данных. Ошибка:" . mysqli_error($conn) . "');location='?step=2';</script>");
+	mysqli_select_db($conn, $db_name) or die("<script>alert('База данных {$db_name} не существует!');location='?step=2';</script>");
+	mysqli_query($conn, "SET FOREIGN_KEY_CHECKS=0;") or die("<script>alert('Ошибка: " . mysqli_error($conn) . "');location='?step=2';</script>");
 	mysqli_query($conn, "CREATE TABLE `daemon` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -72,13 +72,13 @@ function install() {
   `type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fqdn` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;") or die("<script>alert('й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;") or die("<script>alert('Ошибка: " . mysqli_error($conn) . "');location='?step=2';</script>");
 	mysqli_query($conn, "CREATE TABLE `option` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;") or die("<script>alert('й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;") or die("<script>alert('Ошибка: " . mysqli_error($conn) . "');location='?step=2';</script>");
 	mysqli_query($conn, "CREATE TABLE `servers` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -93,7 +93,7 @@ function install() {
   `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ftppass` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;") or die("<script>alert('й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;") or die("<script>alert('Ошибка: " . mysqli_error($conn) . "');location='?step=2';</script>");
 	mysqli_query($conn, "CREATE TABLE `users` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -101,13 +101,13 @@ function install() {
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `permission` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;") or die("<script>alert('й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
-	mysqli_query($conn, "INSERT INTO `option` VALUES ('1', 'loginFailed', '0');") or die("<script>alert('й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
-	mysqli_query($conn, "INSERT INTO `option` VALUES ('2', 'SiteName', '{$SiteName}');") or die("<script>alert('й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
-	mysqli_query($conn, "INSERT INTO `option` VALUES ('3', 'Description', '{$Description}');") or die("<script>alert('й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
-	mysqli_query($conn, "INSERT INTO `option` VALUES ('4', 'Theme', 'PHPMC7');") or die("<script>alert('й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
-	mysqli_query($conn, "INSERT INTO `users` VALUES ('1', '{$username}', '{$password}', '{$email}', 'admin;');") or die("<script>alert('й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
-	mysqli_query($conn, "INSERT INTO `daemon` VALUES ('1', 'Example Daemon', 'http://127.0.0.1:21567/', '123456789', 'windows', '127.0.0.1');") or die("<script>alert('й”™иЇЇпјљ" . mysqli_error($conn) . "');location='?step=2';</script>");
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;") or die("<script>alert('Ошибка: " . mysqli_error($conn) . "');location='?step=2';</script>");
+	mysqli_query($conn, "INSERT INTO `option` VALUES ('1', 'loginFailed', '0');") or die("<script>alert('Ошибка: " . mysqli_error($conn) . "');location='?step=2';</script>");
+	mysqli_query($conn, "INSERT INTO `option` VALUES ('2', 'SiteName', '{$SiteName}');") or die("<script>alert('Ошибка: " . mysqli_error($conn) . "');location='?step=2';</script>");
+	mysqli_query($conn, "INSERT INTO `option` VALUES ('3', 'Description', '{$Description}');") or die("<script>alert('Ошибка: " . mysqli_error($conn) . "');location='?step=2';</script>");
+	mysqli_query($conn, "INSERT INTO `option` VALUES ('4', 'Theme', 'PHPMC7');") or die("<script>alert('Ошибка: " . mysqli_error($conn) . "');location='?step=2';</script>");
+	mysqli_query($conn, "INSERT INTO `users` VALUES ('1', '{$username}', '{$password}', '{$email}', 'admin;');") or die("<script>alert('Ошибка: " . mysqli_error($conn) . "');location='?step=2';</script>");
+	mysqli_query($conn, "INSERT INTO `daemon` VALUES ('1', 'Example Daemon', 'http://127.0.0.1:21567/', '123456789', 'windows', '127.0.0.1');") or die("<script>alert('Ошибка: " . mysqli_error($conn) . "');location='?step=2';</script>");
 	@file_put_contents("../include/data/config.php", '<?php
 class Config {
 	

@@ -48,11 +48,11 @@ class Permission {
 	
 	/**
 	 *
-	 * 服务器权限检测
+	 * Обнаружение разрешений сервера
 	 *
-	 * @param $permission	用户权限
-	 * @param $server		服务器 ID
-	 * @return Boolean		是否拥有权限
+	 * @param $permission	Права пользователя
+	 * @param $server		Идентификатор сервера
+	 * @return Boolean		У вас есть разрешение?
 	 *
 	 */
 	public function serverControlPerm($permission, $server) {

@@ -10,10 +10,10 @@ class Daemon {
 	public $fqdn;
 	
 	/**
-	 * 选择要操作的 Daemon
+	 * Выберите Daemon для работы
 	 *
 	 * @param $daemon Daemon ID
-	 * @return Boolean 返回执行结果
+	 * @return Boolean Возвращает результат выполнения
 	 */
 	public function setDaemon($daemon) {
 		if(!empty($daemon)) {
@@ -36,12 +36,12 @@ class Daemon {
 	}
 	
 	/**
-	 * 设置 FTP 用户信息
+	 * Настройка информации о пользователе FTP
 	 *
-	 * @param $user 用户名
-	 * @param $pass 密码
-	 * @param $home 目录
-	 * @return String/Boolean 返回执行结果
+	 * @param $user Имя пользователя
+	 * @param $pass Пароль
+	 * @param $home Каталог
+	 * @return String/Boolean Возвращает результат выполнения
 	 */
 	public function setUser($user, $pass, $home) {
 		if(empty($this->daemon)) {
@@ -52,9 +52,9 @@ class Daemon {
 	}
 	
 	/**
-	 * 获取数据库中的 Daemon 数量
+	 * Получение количества Daemon в базе данных
 	 *
-	 * @return Int 返回 Daemon 数量
+	 * @return Int Возвращает количество Daemon
 	 */
 	public function getCounts() {
 		$db = Config::MySQL();
@@ -68,9 +68,9 @@ class Daemon {
 	}
 	
 	/**
-	 * 获取数据库中的所有 Daemon 并生成列表
+	 * Получить все Daemon в базе данных и создать список
 	 *
-	 * @return String 返回 Daemon 列表
+	 * @return String Возврат список демонов
 	 */
 	public function getOptionList() {
 		$db = Config::MySQL();
@@ -84,14 +84,14 @@ class Daemon {
 	}
 	
 	/**
-	 * 在数据库中创建新的 Daemon
+	 * Создание нового Daemon в базе данных
 	 *
-	 * @param $name 		Daemon 显示名称
-	 * @param $host 		AJAX 请求连接地址
-	 * @param $pass			Daemon 连接密码
-	 * @param $fqdn			域名或 IP 地址
-	 * @param $type			服务器操作系统类型
-	 * @return Boolean		创建状态
+	 * @param $name 		Отображаемое имя Daemon
+	 * @param $host 		AJAX запрос адреса подключения
+	 * @param $pass			Daemon Пароль подключения
+	 * @param $fqdn			Доменное имя или IP-адрес
+	 * @param $type			Тип операционной системы сервера
+	 * @return Boolean		Состояние
 	 */
 	public function createDaemon($name, $host, $pass, $fqdn, $type) {
 		$uuid = md5(md5(time() . rand(0, 999999)));
@@ -103,15 +103,15 @@ class Daemon {
 	}
 	
 	/**
-	 * 更新数据库中的 Daemon 数据
+	 * Обновление данных Daemon в базе данных
 	 *
-	 * @param $id			服务器 ID
-	 * @param $name 		Daemon 显示名称
-	 * @param $host 		AJAX 请求连接地址
-	 * @param $pass			Daemon 连接密码
-	 * @param $fqdn			域名或 IP 地址
-	 * @param $type			服务器操作系统类型
-	 * @return Boolean		更新状态
+	 * @param $id			ID сервера
+	 * @param $name 		Отображаемое имя Daemon
+	 * @param $host 		AJAX запрос адреса подключения
+	 * @param $pass			Daemon Пароль подключения
+	 * @param $fqdn			Доменное имя или IP-адрес
+	 * @param $type			Тип операционной системы сервера
+	 * @return Boolean		Состояние
 	 */
 	public function updateDaemon($id, $name, $host, $pass, $fqdn, $type) {
 		$db = Config::MySQL();
@@ -122,10 +122,10 @@ class Daemon {
 	}
 	
 	/**
-	 * 删除数据库中的 Daemon
+	 * Удаление Daemon из базы данных
 	 *
 	 * @param $id		Daemon ID
-	 * @return Boolean	删除状态
+	 * @return Boolean	Статус удаления
 	 */
 	public function deleteDaemon($id) {
 		$db = Config::MySQL();
@@ -135,9 +135,9 @@ class Daemon {
 	}
 	
 	/**
-	 * 输出管理 Daemon 列表
+	 * Список Daemon управления
 	 *
-	 * @return String Daemon 列表
+	 * @return String Список Daemon
 	 */
 	public function getDaemonListAdmin() {
 		$db = Config::MySQL();
@@ -147,7 +147,7 @@ class Daemon {
 		while($rw = mysqli_fetch_row($rs)) {
 			$data .= "<div class='server-hover' onclick='selectDaemon({$rw[0]}, this)'>
 				<h5>{$rw[1]}</h5>
-				<p>{$rw[5]} | 操作系统：{$rw[4]}</p>
+				<p>{$rw[5]} | Операционная система： {$rw[4]}</p>
 			</div>";
 		}
 		mysqli_close($conn);

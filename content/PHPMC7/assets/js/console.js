@@ -1,5 +1,5 @@
-// 此处设置 AJAX 延迟，可根据自己的情况进行调整
-// 单位毫秒，例如 1000 就代表 1 秒
+// Здесь установлена задержка AJAX, которая может быть скорректирована в соответствии с вашей ситуацией
+// Миллисекунды, например 1000, представляют собой одну секунду
 var ajaxtimeout = 1000;
 var oldlog;
 var ConnectURL;
@@ -15,26 +15,16 @@ function ajaxload() {
 		$(document).ready(function(){
 			var start = new Date();
 			var htmlobj = $.ajax({url:ConnectURL, async:true, timeout:10000, error: function(){
-				$("#ping").html("连接超时");
-				window.parent.frames.showmsg("与 Daemon 服务器的连接已断开。");
+				$("#ping").html("Время ожидания соединения");
+				window.parent.frames.showmsg("Соединение с сервером Daemon отключено.");
 				clearInterval(Interval);
 			}, success: function() {
 				var end = new Date() - start;
-				$("#ping").html(end + " 毫秒");
+				$("#ping").html(end + " Миллисекунды.");
 				if(oldlog != htmlobj.responseText) {
 					$("#debug").html("<code style='color: #FFF;background-color: none;padding: 0px;'>" 
 					+ htmlobj.responseText.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g,"<br />")
-					.replace(/INFO\]/g, "<span style='color: #00B100'>信息</span>]").replace(/WARN\]/g, "<span style='color: #FF8700'>警告</span>]")
-					.replace(/ERROR\]/g, "<span style='color: #FF0000'>错误</span>]").replace(/\[Server/g, "[服务器").replace(/thread\//g, "主线程/")
-					.replace("Done (", "启动完成，耗时 (").replace("s)! For help, type \"help\" or \"?\"", " 秒)！需要帮助，请输入 “help” 或 “?”")
-					.replace(/Unknown command\. Type \"\/help\" for help\./g, "未知命令，请输入 “help” 查看帮助。")
-					.replace(/Usage\:/g, "使用方法：").replace(/Stopping the server/g, "正在关闭服务器")
-					.replace(/You need to agree to the EULA in order to run the server. Go to eula.txt for more info./, 
-					"<span style='color: #FF8700'>你需要接受 EULA 协议才能开启服务器，编辑服务端的 eula.txt ，将 eula=false 改为 eula=true 并保存即可。</span>")
-					.replace(/Stopping server/, "正在终止服务器进程").replace(/Loading properties/, "正在加载配置文件")
-					.replace(/Failed to load/, "无法加载").replace(/Starting minecraft server version/, "正在启动 Minecraft 服务器，版本：")
-					.replace(/Default game type:/, "默认游戏模式：").replace("Container not found", "提示：服务器未在运行状态")
-					.replace("Token Error", "错误：授权验证失败，请检查 Daemon 设置。") + "</code>");
+					.replace("Token Error", "Ошибка: проверка авторизации не удалась, проверьте настройки демона.") + "</code>");
 					if(autoflush.checked == true) {
 						debug.scrollTop = debug.scrollHeight;
 					}
@@ -45,7 +35,7 @@ function ajaxload() {
 		});
 	} catch(Exception) {
 		if(errorLevel >= 5) {
-			window.parent.frames.showmsg("与 Daemon 服务器的连接已断开。");
+			window.parent.frames.showmsg("Соединение с сервером Daemon отключено.");
 			clearInterval(Interval);
 		} else {
 			errorLevel++;
@@ -70,7 +60,7 @@ function sendCommand(cmd) {
 }
 
 window.onload = function() {
-	$("#debug").html("<code style='color: #FFF;background-color: none;padding: 0px;'>欢迎使用 PHPMC <span class='text-success'>7</span> Minecraft 服务器管理器。<br>请选择一个服务器。</code>");
+	$("#debug").html("<code style='color: #FFF;background-color: none;padding: 0px;'>Добро пожаловать в PHPMC <span class='text-success'>7</span> Minecraft Server Manager.<br>Выберите сервер.</code>");
 	ajaxload();
 	serverStatus();
 };
@@ -94,7 +84,7 @@ function restartServer() {
 };
 
 function selectServer(id, element) {
-	window.parent.frames.progressshow("请稍后，正在加载...");
+	window.parent.frames.progressshow("Пожалуйста, загружайте позже...");
 	clearInterval(Interval);
 	$(".server-hover").attr("style", "");
 	element.style.border = "1px solid rgba(255,255,255,0.3)";

@@ -11,7 +11,7 @@ class Loader {
 	
 	/**
 	 *
-	 *	页面框架显示控制函数
+	 *	Функция контроля отображения фрейма страницы
 	 *
 	 **/
 	public function frame() {
@@ -20,11 +20,11 @@ class Loader {
 	
 	/**
 	 *
-	 *	页面加载函数
+	 *	Функция загрузки страницы
 	 *
-	 *	$pageName	页面文件名
+	 *	$pageName	Имя файла страницы
 	 *
-	 *	$pagePath	页面所在路径
+	 *	$pagePath	Путь к странице
 	 *
 	 **/
 	public function loadPage($pageName, $pagePath) {
@@ -79,7 +79,7 @@ class Loader {
 	
 	/**
 	 *
-	 *	页面主路由函数
+	 *	Функция маршрутизации главной страницы
 	 *
 	 **/
 	public function router() {
@@ -95,7 +95,7 @@ class Loader {
 			switch($_GET['action']) {
 				case 'login':
 					if(!PHPMC::Csrf()->verifyCsrfToken($_POST)) {
-						PHPMC::Error()->Println("Csrf 验证失败，请刷新页面重试。");
+						PHPMC::Error()->Println("Csrf Не удалось проверить, обновите страницу или повторите попытку через некоторое время.");
 					}
 					$this->Event->EventHandle("LoginEvent", array($_POST));
 					break;

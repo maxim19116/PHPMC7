@@ -16,16 +16,16 @@ class Server {
 	public $uuid;
 	
 	/**
-	 * 选择要操作的服务器，这里写的很杂
+	 * Выберите сервер, с которым вы хотите работать.
 	 *
-	 * @param $server 服务器 ID
-	 * @param $daemon 服务器所在 Daemon
+	 * @param $server Идентификатор сервера
+	 * @param $daemon Deamon.
 	 */
 	public function setServer($server, $daemon = false) {
 		$this->server = $server;
 		$db = Config::MySQL();
 		$conn = mysqli_connect($db['host'], $db['user'], $db['pass'], $db['name'], $db['port']);
-		// Method 1 通过服务器 ID 查找服务器
+		// Method 1 Идентификатор сервера Поиск сервера
 		$rs = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM `{$db['name']}`.`servers` WHERE `id`='" . $this->server . "'"));
 		if($rs) {
 			$this->id = $rs['id'];
@@ -41,7 +41,7 @@ class Server {
 			$this->ftppass = $rs['ftppass'];
 			$this->uuid = $rs['uuid'];
 		} else {
-			// Method 2 通过服务器 UUID 查找服务器
+			// Method 2 Поиск сервера через сервер UUID
 			$rs = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM `{$db['name']}`.`servers` WHERE `uuid`='" . $this->server . "'"));
 			if($rs) {
 				$this->id = $rs['id'];
@@ -57,7 +57,7 @@ class Server {
 				$this->ftppass = $rs['ftppass'];
 				$this->uuid = $rs['uuid'];
 			} else {
-				// Method 3 通过服务器名字查找服务器
+				// Method 3 Поиск сервера по имени сервера
 				$rs = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM `{$db['name']}`.`servers` WHERE `name`='" . $this->server . "'"));
 				if($rs) {
 					$this->id = $rs['id'];
@@ -73,7 +73,7 @@ class Server {
 					$this->ftppass = $rs['ftppass'];
 					$this->uuid = $rs['uuid'];
 				} else {
-					// Method 4 通过服务器端口查找服务器
+					// Method 4 Поиск по порту сервера
 					if($daemon) {
 						$rs = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM `{$db['name']}`.`servers` WHERE `port`='" . $this->server . "' AND `daemon`='{$daemon}'"));
 						if($rs) {
@@ -90,7 +90,7 @@ class Server {
 							$this->ftppass = $rs['ftppass'];
 							$this->uuid = $rs['uuid'];
 						} else {
-							// 未找到任何数据，返回 null
+							// Данные не найдены, возвращается значение null
 							$this->id = null;
 							$this->name = null;
 							$this->daemon = null;
@@ -105,7 +105,7 @@ class Server {
 							$this->uuid = null;
 						}
 					} else {
-						// 未找到任何数据，返回 null
+						// Данные не найдены, возвращается значение null
 						$this->id = null;
 						$this->name = null;
 						$this->daemon = null;
@@ -125,7 +125,7 @@ class Server {
 	}
 	
 	/**
-	 * 取消选择服务器
+	 * Отмена выбора сервера
 	 */
 	public function unselectServer() {
 		$this->id = null;
@@ -143,19 +143,19 @@ class Server {
 	}
 	
 	/**
-	 * 在数据库中创建新的服务器
+	 * Создание нового сервера в базе данных
 	 *
-	 * @param $name 		服务器显示名称
-	 * @param $daemon 		服务器所在的 Daemon
-	 * @param $maxram		服务器最大内存
-	 * @param $jar			服务器核心 Jar 名称
-	 * @param $startcommand	服务器启动命令
-	 * @param $stopcommand	服务器停止命令
-	 * @param $owner		服务器所有者用户 ID
-	 * @param $status		服务器状态
-	 * @param $port			服务器端口
-	 * @param $ftppass		服务器 FTP 密码
-	 * @return Boolean		创建状态
+	 * @param $name 		Отображаемое имя сервера
+	 * @param $daemon 		Deamon, на котором расположен сервер
+	 * @param $maxram		Максимальная память сервера
+	 * @param $jar			Имя Jar ядра сервера
+	 * @param $startcommand	Команда запуска сервера
+	 * @param $stopcommand	Команда остановки сервера
+	 * @param $owner		Владелец сервера, Идентификатор пользователя
+	 * @param $status		Состояние сервера
+	 * @param $port			Порт сервера
+	 * @param $ftppass		FTP Пароль
+	 * @return Boolean		Статус
 	 */
 	public function createServer($name, $daemon, $maxram, $jar, $startcommand, $stopcommand, $owner, $status, $port, $ftppass) {
 		$uuid = md5(uniqid(rand(0, 10000000), TRUE));
@@ -169,19 +169,19 @@ class Server {
 	}
 	
 	/**
-	 * 更新数据库中的服务器数据
+	 * Обновление данных сервера в базе данных
 	 *
-	 * @param $id			服务器 ID
-	 * @param $name 		服务器显示名称
-	 * @param $maxram		服务器最大内存
-	 * @param $jar			服务器核心 Jar 名称
-	 * @param $startcommand	服务器启动命令
-	 * @param $stopcommand	服务器停止命令
-	 * @param $owner		服务器所有者用户 ID
-	 * @param $status		服务器状态
-	 * @param $port			服务器端口
-	 * @param $ftppass		服务器 FTP 密码
-	 * @return Boolean		更新状态
+	 * @param $id			Идентификатор сервера
+	 * @param $name 		Отображаемое имя сервера
+	 * @param $maxram		Максимальная память сервера
+	 * @param $jar			Имя Jar ядра сервера
+	 * @param $startcommand	Команда запуска сервера
+	 * @param $stopcommand	Команда остановки сервера
+	 * @param $owner		Владелец сервера, Идентификатор пользователя
+	 * @param $status		Состояние сервера
+	 * @param $port			Порт сервера
+	 * @param $ftppass		FTP Пароль
+	 * @return Boolean		Статус
 	 */
 	public function updateServer($id, $name, $maxram, $jar, $startcommand, $stopcommand, $owner, $status, $port, $ftppass) {
 		$db = Config::MySQL();
@@ -192,10 +192,10 @@ class Server {
 	}
 	
 	/**
-	 * 删除数据库中的服务器以及所有数据
+	 * Удаление сервера в базе данных и всех данных
 	 *
-	 * @param $id		服务器 ID
-	 * @return Boolean	删除状态
+	 * @param $id		ID сервера
+	 * @return Boolean	Статус
 	 */
 	public function deleteServer($id) {
 		$this->setServer($id);
@@ -226,9 +226,9 @@ class Server {
 	}
 	
 	/**
-	 * 判断服务器是否已初始化
+	 * Определяет, инициализирован ли сервер
 	 *
-	 * @return Boolean 初始化状态
+	 * @return Boolean Состояние инициализации
 	 */
 	public function isCreated() {
 		if(empty($this->server)) {
@@ -244,9 +244,9 @@ class Server {
 	}
 	
 	/**
-	 * 初始化服务器通讯管道
+	 * Инициализация канала связи сервера
 	 *
-	 * @return String/Boolean 返回执行结果
+	 * @return String/Boolean Возвращает результат выполнения
 	 */
 	public function Init() {
 		if(empty($this->server)) {
@@ -265,10 +265,10 @@ class Server {
 	}
 	
 	/**
-	 * 向服务器发送命令
+	 * Отправка команд на сервер
 	 *
-	 * @param $cmd 需要执行的命令
-	 * @return String/Boolean 返回执行结果
+	 * @param $cmd Команды, которые необходимо выполнить
+	 * @return String/Boolean Возвращает результат выполнения
 	 */
 	public function sendCommand($cmd) {
 		if(empty($this->server)) {
@@ -286,9 +286,9 @@ class Server {
 	}
 	
 	/**
-	 * 关闭服务器的管道
+	 * Закрыть Deamon
 	 *
-	 * @return String/Boolean 返回执行结果
+	 * @return String/Boolean Возвращает результат выполнения
 	 */
 	public function close() {
 		if(empty($this->server)) {
@@ -306,9 +306,9 @@ class Server {
 	}
 	
 	/**
-	 * 获得服务器日志输出 Token
+	 * Получение маркера вывода журнала сервера
 	 *
-	 * @return String/Boolean 返回 Token
+	 * @return String/Boolean Токен
 	 */
 	public function getToken() {
 		if(empty($this->server)) {
@@ -322,9 +322,9 @@ class Server {
 	}
 	
 	/**
-	 * 获得数据库中的服务器数量
+	 * Количество серверов в базе данных
 	 *
-	 * @return Int 服务器总数
+	 * @return Int Общее количество серверов
 	 */
 	public function getCounts() {
 		$db = Config::MySQL();
@@ -339,9 +339,9 @@ class Server {
 	}
 	
 	/**
-	 * 获得数据库中指定 Daemon 的服务器数量
+	 * Получить количество серверов, указанных в базе данных Daemon
 	 *
-	 * @return Int 服务器总数
+	 * @return Int Общее количество серверов
 	 */
 	public function getCountsByDaemon($id) {
 		$db = Config::MySQL();
@@ -356,9 +356,9 @@ class Server {
 	}
 	
 	/**
-	 * 获得数据库中指定用户的服务器数量
+	 * Получение количества серверов для указанных пользователей в базе данных
 	 *
-	 * @return Int 服务器总数
+	 * @return Int Общее количество серверов
 	 */
 	public function getCountsByOwner($id) {
 		$db = Config::MySQL();
@@ -373,9 +373,9 @@ class Server {
 	}
 	
 	/**
-	 * 输出用户可管理的服务器列表
+	 * Вывод списка серверов, которыми может управлять пользователь
 	 *
-	 * @return String 服务器列表
+	 * @return String Список серверов
 	 */
 	public function getServerList() {
 		$db = Config::MySQL();
@@ -402,9 +402,9 @@ class Server {
 	}
 	
 	/**
-	 * 输出管理服务器列表
+	 * Список серверов администрации
 	 *
-	 * @return String 服务器列表
+	 * @return String Список серверов
 	 */
 	public function getServerListAdmin() {
 		$db = Config::MySQL();
@@ -422,7 +422,7 @@ class Server {
 			$Profile = new Profile($rw[7]);
 			$data .= "<div class='server-hover' onclick='selectServer({$rw[0]}, this)'>
 				<h5>{$rw[1]}</h5>
-				<p>" . $Daemon->fqdn . ":{$rw[9]} | 所有者：" . $Profile->username . "</p>
+				<p>" . $Daemon->fqdn . ":{$rw[9]} | Владелец： " . $Profile->username . "</p>
 			</div>";
 		}
 		mysqli_close($conn);

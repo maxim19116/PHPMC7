@@ -12,28 +12,28 @@ class Event {
 	
 	public function EventHandle($name, $args) {
 		try {
-			// 如果此事件已经注册
+			// Если событие уже зарегистрировано
 			if(isset($this->eventList[$name])) {
 				$breaked = false;
-				// 遍历事件列表，将每个插件的事件处理函数执行一次
+				// Обход списка событий для выполнения обработчика событий для каждого подключаемого модуля
 				foreach($this->eventList[$name] as $class) {
 					$rs = call_user_func_array(array($class, $name), $args);
-					// 如果事件被取消
+					// Если событие отменяется, то
 					if($rs == true) {
 						$breaked = true;
 						break;
 					}
 				}
-				// 如果事件未被取消
+				// Если событие не было отменено
 				if(!$breaked) {
 					@call_user_func_array(array($this, $name), $args);
 				}
 			} else {
-				// 如果事件未注册
+				// Если событие не зарегистрировано
 				call_user_func_array(array($this, $name), $args);
 			}
 		} catch(Exception $ex) {
-			// 出错时
+			// Когда произошла ошибка
 			call_user_func_array(array($this, $name), $args);
 		}
 	}
@@ -71,7 +71,7 @@ class Event {
 				$Option = new Option();
 				$newValue = Intval($Option->getOption('loginFailed')) + 1;
 				$Option->updateOption("loginFailed", $newValue);
-				PHPMC::Error()->Println("用户名或密码错误！");
+				PHPMC::Error()->Println("Неправильное имя пользователя или пароль!");
 			}
 		}
 	}
@@ -88,7 +88,7 @@ class Event {
 			$Server = new Server();
 			$Server->setServer($data['id']);
 			if(empty($Server->uuid)) {
-				PHPMC::Error()->Println("404 Not Found");
+				PHPMC::Error()->Println("404 Не найден");
 			}
 			$Daemon = new Daemon();
 			if($Daemon->setDaemon($Server->daemon) == null) {
@@ -118,7 +118,7 @@ class Event {
 			$Server = new Server();
 			$Server->setServer($data['id']);
 			if(empty($Server->uuid)) {
-				PHPMC::Error()->Println("404 Not Found");
+				PHPMC::Error()->Println("404 Не найден");
 			}
 			$info = Array(
 				'id' => $Server->id,
@@ -144,7 +144,7 @@ class Event {
 			$Daemon = new Daemon();
 			$Daemon->setDaemon($data['id']);
 			if(empty($Daemon->name)) {
-				PHPMC::Error()->Println("404 Not Found");
+				PHPMC::Error()->Println("404 Не найден");
 			}
 			$info = Array(
 				'id' => $Daemon->id,
@@ -166,7 +166,7 @@ class Event {
 		if(isset($data['id']) && preg_match("/^[0-9]+$/", $data['id'])) {
 			$Profile = new Profile($data['id']);
 			if(empty($Profile->username)) {
-				PHPMC::Error()->Println("404 Not Found");
+				PHPMC::Error()->Println("404 Не найден");
 			}
 			$info = Array(
 				'id' => $Profile->id,
@@ -187,7 +187,7 @@ class Event {
 			$Server = new Server();
 			$Server->setServer($data['id']);
 			if(empty($Server->uuid)) {
-				PHPMC::Error()->Println("404 Not Found");
+				PHPMC::Error()->Println("404 Не найден");
 			}
 			$Server->Init();
 			$startCommand = $Server->startcommand;
@@ -196,7 +196,7 @@ class Event {
 			$Server->sendCommand($startCommand);
 			echo "Successful";
 		} else {
-			echo "Not Found";
+			echo "Не найден";
 			exit;
 		}
 	}
@@ -206,13 +206,13 @@ class Event {
 			$Server = new Server();
 			$Server->setServer($data['id']);
 			if(empty($Server->uuid)) {
-				PHPMC::Error()->Println("404 Not Found");
+				PHPMC::Error()->Println("404 Не найден");
 			}
 			$stopcommand = $Server->stopcommand;
 			$Server->sendCommand($stopcommand);
 			echo "Successful";
 		} else {
-			echo "Not Found";
+			echo "Не найден";
 			exit;
 		}
 	}
@@ -222,7 +222,7 @@ class Event {
 			$Server = new Server();
 			$Server->setServer($data['id']);
 			if(empty($Server->uuid)) {
-				PHPMC::Error()->Println("404 Not Found");
+				PHPMC::Error()->Println("404 Не найден");
 			}
 			$stopcommand = $Server->stopcommand;
 			$Server->sendCommand($stopcommand);
@@ -233,7 +233,7 @@ class Event {
 			$Server->sendCommand($startCommand);
 			echo "Successful";
 		} else {
-			echo "Not Found";
+			echo "Не найден";
 			exit;
 		}
 	}
@@ -243,16 +243,16 @@ class Event {
 			$Server = new Server();
 			$Server->setServer($data['id']);
 			if(empty($Server->uuid)) {
-				PHPMC::Error()->Println("404 Not Found");
+				PHPMC::Error()->Println("404 Не найден");
 			}
 			if(empty($data['cmd'])) {
-				PHPMC::Error()->Println("命令内容不能为空。");
+				PHPMC::Error()->Println("Содержимое команды не может быть пустым.");
 			}
 			$Server->Init();
 			$Server->sendCommand($data['cmd']);
 			echo "Successful";
 		} else {
-			echo "Not Found";
+			echo "Не найден";
 			exit;
 		}
 	}
@@ -262,7 +262,7 @@ class Event {
 			$Server = new Server();
 			$Server->setServer($data['id']);
 			if(empty($Server->uuid)) {
-				PHPMC::Error()->Println("404 Not Found");
+				PHPMC::Error()->Println("404 Не найден");
 			}
 			$Daemon = new Daemon();
 			if($Daemon->setDaemon($Server->daemon) == null) {
@@ -280,226 +280,227 @@ class Event {
 	
 	public function createServerEvent($data) {
 		if(!preg_match("/^[0-9]+$/", $data['daemon'])) {
-			PHPMC::Error()->Println("请填写字段：Daemon");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: Daemon");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_ ]+$/", $data['name'])) {
-			PHPMC::Error()->Println("请填写字段：服务器名称，只能包含英文大小写、数字、下划线和 -"); 
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: имя сервера, может содержать только английский регистр, цифры, подчеркивания и -"); 
 		}
 		if(!preg_match("/^[0-9]+$/", $data['maxram'])) {
-			PHPMC::Error()->Println("请填写字段：最大内存");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: максимальная память");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_\.]+$/", $data['jar'])) {
-			PHPMC::Error()->Println("请填写字段：核心文件名字，只能包含英文大小写、数字、_、. 和 -");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: имя основного файла, может содержать только английский регистр, номер, _, . И -");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_\.\{\}\:\/\\\= ]+$/", $data['startcommand'])) {
-			PHPMC::Error()->Println("请填写字段：核心启动命令");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: основная команда запуска");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_\.\{\} ]+$/", $data['stopcommand'])) {
-			PHPMC::Error()->Println("请填写字段：停止命令");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: команда Stop");
 		}
 		if(!preg_match("/^[0-9]+$/", $data['port'])) {
-			PHPMC::Error()->Println("请填写字段：服务器端口");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: порт сервера");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_ ]+$/", $data['ftppass'])) {
-			PHPMC::Error()->Println("请填写字段：服务器 FTP 密码，只能包含英文大小写、数字、下划线和 -"); 
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: сервер FTP пароль, может содержать только английский регистр, цифры, подчеркивания и -"); 
 		}
 		if(!preg_match("/^[0-9]+$/", $data['owner'])) {
-			PHPMC::Error()->Println("请填写字段：服务器所有者");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: владелец сервера");
 		}
 		$Server = new Server();
 		$Server->setServer($data['name']);
 		if($Server->uuid !== null) {
-			PHPMC::Error()->Println("相同名字的服务器已经存在。");
+			PHPMC::Error()->Println("Серверы с одинаковыми именами уже существуют.");
 		}
 		$Server->unselectServer();
 		$Server->setServer($data['port'], $data['daemon']);
 		if($Server->uuid !== null) {
-			PHPMC::Error()->Println("相同端口、相同 Daemon 的服务器已经存在。");
+			PHPMC::Error()->Println("Сервер с тем же портом и тем же Daemon уже существует.");
 		}
 		$Daemon = new Daemon();
 		if($Daemon->setDaemon($data['daemon']) == null) {
-			PHPMC::Error()->Println("Daemon 不存在，请检查参数是否正确。");
+			PHPMC::Error()->Println("Daemon не существует, проверьте правильность параметров.");
 		}
 		PHPMC::Server()->createServer($data['name'], $data['daemon'], $data['maxram'], 
 			$data['jar'], $data['startcommand'], $data['stopcommand'], $data['owner'], "normal", $data['port'], $data['ftppass']);
-		echo "服务器创建成功！";
+		echo "Сервер создан успешно!";
 		exit;
 	}
 	
 	public function updateServerEvent($data) {
 		if(!preg_match("/^[0-9]+$/", $data['id'])) {
-			PHPMC::Error()->Println("请填写字段：服务器 ID");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: server ID");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_ ]+$/", $data['name'])) {
-			PHPMC::Error()->Println("请填写字段：服务器名称，只能包含英文大小写、空格、数字、下划线和 -"); 
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: имя сервера, которое может содержать только английский регистр, пробелы,цифры, подчеркивания и -"); 
 		}
 		if(!preg_match("/^[0-9]+$/", $data['maxram'])) {
-			PHPMC::Error()->Println("请填写字段：最大内存");
+			PHPMC::Error()->Println("Пожалуйста, заполните поле: Максимальная память");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_\.]+$/", $data['jar'])) {
-			PHPMC::Error()->Println("请填写字段：核心文件名字，只能包含英文大小写、数字、_、. 和 -");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: имя основного файла, может содержать только английский регистр, номер, _, . И -");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_\.\{\}\:\/\\\= ]+$/", $data['startcommand'])) {
-			PHPMC::Error()->Println("请填写字段：核心启动命令");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: основная команда запуска");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_\.\{\} ]+$/", $data['stopcommand'])) {
-			PHPMC::Error()->Println("请填写字段：停止命令");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: команда Stop");
 		}
 		if(!preg_match("/^[0-9]+$/", $data['port'])) {
-			PHPMC::Error()->Println("请填写字段：服务器端口");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: порт сервера");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_ ]+$/", $data['ftppass'])) {
-			PHPMC::Error()->Println("请填写字段：服务器 FTP 密码，只能包含英文大小写、数字、下划线和 -"); 
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: сервер FTP пароль, может содержать только английский регистр, цифры, подчеркивания и -"); 
 		}
 		if(!preg_match("/^[0-9]+$/", $data['owner'])) {
-			PHPMC::Error()->Println("请填写字段：服务器所有者");
+			PHPMC::Error()->Println("Заполните поля: владелец сервера");
 		}
 		$Server = new Server();
 		$Server2 = new Server();
 		$Server->setServer($data['id']);
 		if($Server->uuid == null) {
-			PHPMC::Error()->Println("Server Not Found");
+			PHPMC::Error()->Println("Сервер не найден");
 		}
 		$Server2->setServer($data['name']);
 		if($Server2->uuid !== null && $Server2->id !== $data['id']) {
-			PHPMC::Error()->Println("相同名字的服务器已经存在。");
+			PHPMC::Error()->Println("Сервер с тем же именем уже существует.");
 		}
 		$Server2->unselectServer();
 		$Server2->setServer($data['port'], $Server->daemon);
 		if($Server2->uuid !== null && $Server2->id !== $data['id']) {
-			PHPMC::Error()->Println("相同端口、相同 Daemon 的服务器已经存在。");
+			PHPMC::Error()->Println("Тот же порт, тот же самый сервер Daemon уже существует.");
 		}
 		PHPMC::Server()->updateServer($data['id'], $data['name'], $data['maxram'], $data['jar'], $data['startcommand'], 
 			$data['stopcommand'], $data['owner'], "normal", $data['port'], $data['ftppass']);
-		echo "服务器设置更改成功，您需要刷新网页后设置才会生效。";
+		echo "Настройки сервера меняются успешно, и настройки не вступят в силу, пока вы не обновите страницу.";
 		exit;
 	}
 	
 	public function deleteServerEvent($data) {
 		if(!preg_match("/^[0-9]+$/", $data['id'])) {
-			PHPMC::Error()->Println("请填写字段：服务器 ID");
+			PHPMC::Error()->Println("Заполните поле: ID сервера");
 		}
 		PHPMC::Server()->deleteServer($data['id']);
-		echo "服务器删除成功！";
+		echo "Сервер был успешно удален!";
 		exit;
 	}
 	
 	public function createDaemonEvent($data) {
 		if(!preg_match("/^[A-Za-z0-9\-\_ ]+$/", $data['name'])) {
-			PHPMC::Error()->Println("请填写字段：Daemon 名称");
+			PHPMC::Error()->Println("Заполните поле: Daemon name");
 		}
 		if(!preg_match('/^^((https|http)?:\/\/)[^\s]+$/', $data['host'])) {
-			PHPMC::Error()->Println("请填写字段：AJAX 请求地址"); 
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: AJAX адрес запроса"); 
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_ ]+$/", $data['pass'])) {
-			PHPMC::Error()->Println("请填写字段：Daemon 密码，只能包含英文大小写、数字、下划线和 -");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: пароль Daemon, который может содержать только английский регистр, цифры, подчеркивания и -");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_\.]+$/", $data['fqdn'])) {
-			PHPMC::Error()->Println("请填写字段：域名或 IP 地址");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: доменное имя или IP-адрес");
 		}
 		if(!preg_match("/^[a-z]+$/", $data['type'])) {
-			PHPMC::Error()->Println("请填写字段：服务器操作系统类型");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: тип операционной системы сервера");
 		}
 		PHPMC::Daemon()->createDaemon($data['name'], $data['host'], $data['pass'], $data['fqdn'], $data['type']);
-		echo "Daemon 创建成功！";
+		echo "Daemon создан успешно!";
 		exit;
 	}
 	
 	public function updateDaemonEvent($data) {
 		if(!preg_match("/^[0-9]+$/", $data['id'])) {
-			PHPMC::Error()->Println("请填写字段：Daemon ID");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Daemon ID");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_ ]+$/", $data['name'])) {
-			PHPMC::Error()->Println("请填写字段：Daemon 名称");
+			PHPMC::Error()->Println("Заполните поле: Daemon name");
 		}
 		if(!preg_match('/^^((https|http)?:\/\/)[^\s]+$/', $data['host'])) {
-			PHPMC::Error()->Println("请填写字段：AJAX 请求地址"); 
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: AJAX адрес запроса"); 
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_ ]+$/", $data['pass'])) {
-			PHPMC::Error()->Println("请填写字段：Daemon 密码，只能包含英文大小写、数字、下划线和 -");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: пароль Daemon, который может содержать только английский регистр, цифры, подчеркивания и -");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_\.]+$/", $data['fqdn'])) {
-			PHPMC::Error()->Println("请填写字段：域名或 IP 地址");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: доменное имя или IP-адрес");
 		}
 		if(!preg_match("/^[a-z]+$/", $data['type'])) {
-			PHPMC::Error()->Println("请填写字段：服务器操作系统类型");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля: тип операционной системы сервера");
 		}
 		$Daemon = new Daemon();
 		if($Daemon->setDaemon($data['id']) == null) {
-			PHPMC::Error()->Println("Daemon Not Found");
+			PHPMC::Error()->Println("Daemon Не найден");
 		}
 		PHPMC::Daemon()->updateDaemon($data['id'], $data['name'], $data['host'], $data['pass'], $data['fqdn'], $data['type']);
-		echo "Daemon 设置更改成功，您需要刷新网页后设置才会生效。";
+		echo "Настройки Daemon были изменены успешно, и вам нужно обновить веб-страницу, прежде чем настройки вступят в силу.";
 		exit;
 	}
 	
 	public function deleteDaemonEvent($data) {
 		if(!preg_match("/^[0-9]+$/", $data['id'])) {
-			PHPMC::Error()->Println("请填写字段：Daemon ID");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Daemon ID");
 		}
 		$Daemon = new Daemon();
 		if($Daemon->setDaemon($data['id']) == null) {
-			PHPMC::Error()->Println("Daemon Not Found");
+			PHPMC::Error()->Println("Daemon Не найден");
 		}
 		if(PHPMC::Server()->getCountsByDaemon($data['id']) > 0) {
-			PHPMC::Error()->Println("当前 Daemon 中有服务器，请删除服务器后再删除 Daemon。");
+			PHPMC::Error()->Println("Есть серверы в текущем Демоне, пожалуйста, удалите сервер перед удалением демона.");
 		}
 		PHPMC::Daemon()->deleteDaemon($data['id']);
-		echo "Daemon 删除成功！";
+		echo "Daemon Удаление успешно!";
 		exit;
 	}
 	
 	public function createUserEvent($data) {
 		if(!preg_match("/^[A-Za-z0-9\-\_]+$/", $data['username'])) {
-			PHPMC::Error()->Println("请填写字段：用户名");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Имя пользователя");
 		}
 		if(empty($data['password'])) {
-			PHPMC::Error()->Println("请填写字段：用户密码"); 
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Пароль пользователя
+"); 
 		}
 		if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-			PHPMC::Error()->Println("请填写字段：用户邮箱");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Почтовый ящик пользователя");
 		}
 		if(!preg_match("/^[A-Za-z0-9\_\-\;\:]+$/", $data['permission'])) {
-			PHPMC::Error()->Println("请填写字段：用户权限");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Права пользователя");
 		}
 		$Profile = new Profile($data['username']);
 		if($Profile->username == $data['username'] && $Profile->id !== $data['id']) {
-			PHPMC::Error()->Println("此用户名已经存在。");
+			PHPMC::Error()->Println("Этот пользователь уже существует");
 		}
 		$Profile = new Profile($data['email']);
 		if($Profile->email == $data['email'] && $Profile->id !== $data['id']) {
-			PHPMC::Error()->Println("此邮箱已经存在。");
+			PHPMC::Error()->Println("Этот почтовый ящик уже существует.");
 		}
 		$password = password_hash(md5($data['password']), PASSWORD_BCRYPT);
 		PHPMC::User()->createUser($data['username'], $password, $data['email'], $data['permission']);
-		echo "用户创建成功！";
+		echo "Пользователь создан успешно!";
 		exit;
 	}
 	
 	public function updateUserEvent($data) {
 		if(!preg_match("/^[0-9]+$/", $data['id'])) {
-			PHPMC::Error()->Println("请填写字段：用户 ID");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Идентификатор пользователя");
 		}
 		if(!preg_match("/^[A-Za-z0-9\-\_]+$/", $data['username'])) {
-			PHPMC::Error()->Println("请填写字段：用户名");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Имя пользователя");
 		}
 		if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-			PHPMC::Error()->Println("请填写字段：用户邮箱");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Почтовый ящик пользователя");
 		}
 		if(!preg_match("/^[A-Za-z0-9\_\-\;\:]+$/", $data['permission'])) {
-			PHPMC::Error()->Println("请填写字段：用户权限");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Права пользователя");
 		}
 		$Profile = new Profile($data['id']);
 		if($Profile->username == null) {
-			PHPMC::Error()->Println("User Not Found");
+			PHPMC::Error()->Println("User Не найден");
 		}
 		$Profile = new Profile($data['username']);
 		if($Profile->username == $data['username'] && $Profile->id !== $data['id']) {
-			PHPMC::Error()->Println("此用户名已经存在。");
+			PHPMC::Error()->Println("Имя пользователя уже существует");
 		}
 		$Profile = new Profile($data['email']);
 		if($Profile->email == $data['email'] && $Profile->id !== $data['id']) {
-			PHPMC::Error()->Println("此邮箱已经存在。");
+			PHPMC::Error()->Println("Этот почтовый ящик уже существует.");
 		}
 		if(empty($data['password'])) {
 			PHPMC::User()->updateUser($data['id'], $data['username'], false, $data['email'], $data['permission']);
@@ -507,41 +508,41 @@ class Event {
 			$password = password_hash(md5($data['password']), PASSWORD_BCRYPT);
 			PHPMC::User()->updateUser($data['id'], $data['username'], $password, $data['email'], $data['permission']);
 		}
-		echo "用户设置更改成功，您需要刷新网页后设置才会生效。";
+		echo "Настройки пользователя изменяются успешно, и вам нужно обновить веб-страницу, прежде чем настройки вступят в силу.";
 		exit;
 	}
 	
 	public function deleteUserEvent($data) {
 		if(!preg_match("/^[0-9]+$/", $data['id'])) {
-			PHPMC::Error()->Println("请填写字段：用户 ID");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Идентификатор пользователя");
 		}
 		$Profile = new Profile($data['id']);
 		if($Profile->username == null) {
-			PHPMC::Error()->Println("User Not Found");
+			PHPMC::Error()->Println("Пользователь не найден");
 		}
 		if(PHPMC::Server()->getCountsByOwner($data['id']) > 0) {
-			PHPMC::Error()->Println("当前用户还拥有服务器，请删除服务器后再删除用户。");
+			PHPMC::Error()->Println("Текущий пользователь также имеет сервер, удалите сервер перед удалением пользователя.");
 		}
 		if($data['id'] == "1") {
-			PHPMC::Error()->Println("此用户为超级管理员用户，无法删除。");
+			PHPMC::Error()->Println("Этот пользователь является суперадминистратором и не может быть удален.");
 		}
 		PHPMC::User()->deleteUser($data['id']);
-		echo "用户删除成功！";
+		echo "Пользователь удален успешно!";
 		exit;
 	}
 	
 	public function saveConfigEvent($data) {
 		if(!preg_match("/^[a-zA-Z0-9_\x7f-\xff ]+$/", $data['SiteName'])) {
-			PHPMC::Error()->Println("请填写字段：站点名称");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Название сайта");
 		}
 		if(!preg_match("/^[a-zA-Z0-9_\x7f-\xff ]+$/", $data['Description'])) {
-			PHPMC::Error()->Println("请填写字段：站点简介");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Описание сайта");
 		}
 		if(!preg_match("/^[a-zA-Z0-9\-\_]+$/", $data['Theme'])) {
-			PHPMC::Error()->Println("请填写字段：系统主题");
+			PHPMC::Error()->Println("Пожалуйста, заполните поля： Системные темы");
 		}
 		PHPMC::Option()->saveConfig($data['SiteName'], $data['Description'], $data['Theme']);
-		echo "系统设置更改成功，您需要刷新网页后设置才会生效。";
+		echo "Системные настройки были изменены успешно, и вам нужно обновить веб-страницу, прежде чем настройки вступят в силу.";
 		exit;
 	}
 	

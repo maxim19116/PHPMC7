@@ -44,9 +44,9 @@ class User {
 	}
 	
 	/**
-	 * 获取数据库中的所有用户并生成列表
+	 * Получение всех пользователей в базе данных и создание списка
 	 *
-	 * @return String 返回用户列表
+	 * @return String Возврат списка пользователей
 	 */
 	public function getOptionList($isModifyList = false) {
 		$db = Config::MySQL();
@@ -64,9 +64,9 @@ class User {
 	}
 	
 	/**
-	 * 输出管理用户列表
+	 * Вывод списка админов
 	 *
-	 * @return String 用户列表
+	 * @return String Список пользователей
 	 */
 	public function getUserListAdmin() {
 		$db = Config::MySQL();
@@ -84,13 +84,14 @@ class User {
 	}
 	
 	/**
-	 * 在数据库中创建新的用户
+	 * Создание нового пользователя в базе данных
 	 *
-	 * @param $username 	用户名
-	 * @param $password 	用户密码
-	 * @param $email		用户邮箱
-	 * @param $permission	用户权限
-	 * @return Boolean		创建状态
+	 * @param $username 	Имя пользователя
+	 * @param $password 	Пароль пользователя
+
+	 * @param $email		Почтовый ящик пользователя
+	 * @param $permission	Права пользователя
+	 * @return Boolean		Статус
 	 */
 	public function createUser($username, $password, $email, $permission) {
 		$uuid = md5(md5(time() . rand(0, 999999)));
@@ -102,14 +103,14 @@ class User {
 	}
 	
 	/**
-	 * 更新数据库中的用户数据
+	 * Обновление пользовательских данных в базе данных
 	 *
-	 * @param $id			用户 ID
-	 * @param $username 	用户名
-	 * @param $password 	用户密码
-	 * @param $email		用户邮箱
-	 * @param $permission	用户权限
-	 * @return Boolean		更新状态
+	 * @param $id			Идентификатор пользователя
+	 * @param $username 	Имя пользователя
+	 * @param $password 	Пароль пользователя
+	 * @param $email		Почтовый ящик пользователя
+	 * @param $permission	Права пользователя
+	 * @return Boolean		Статус
 	 */
 	public function updateUser($id, $username, $password = false, $email, $permission) {
 		$db = Config::MySQL();
@@ -125,10 +126,10 @@ class User {
 	}
 	
 	/**
-	 * 删除数据库中的用户
+	 * Удаление пользователей из базы данных
 	 *
-	 * @param $id		用户 ID
-	 * @return Boolean	删除状态
+	 * @param $id		Идентификатор пользователя
+	 * @return Boolean	Удалить состояние
 	 */
 	public function deleteUser($id) {
 		$db = Config::MySQL();
